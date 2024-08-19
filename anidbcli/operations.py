@@ -1,9 +1,8 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 import os
 import datetime
 import re
 import glob
-import errno
 import time
 import shutil
 
@@ -31,14 +30,14 @@ class Operation:
     def Process(self, file): pass
 
 class MylistAddOperation(Operation):
-    def __init__(self, connector, output, state, unwatched):
+    def __init__(self, connector, output, state, watched):
         self.connector = connector
         self.output = output
         self.state = state 
-        if unwatched:
-            self.viewed = 0
-        else:
+        if watched:
             self.viewed = 1
+        else:
+            self.viewed = 0
     def Process(self, file):
         try:
             res = self.connector.send_request(API_ENDPOINT_MYLYST_ADD % (file["size"], file["ed2k"], self.viewed, int(self.state)))

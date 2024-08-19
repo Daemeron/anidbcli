@@ -48,7 +48,7 @@ def ed2k(ctx , files, clipboard):
 @click.option('--password', "-p", prompt=True, hide_input=True)
 @click.option('--apikey', "-k")
 @click.option("--add", "-a", is_flag=True, default=False, help="Add files to mylist.")
-@click.option("--unwatched", "-U", is_flag=True, default=False, help="Add files to mylist as unwatched. Use with -a flag.")
+@click.option("--watched", "-W", is_flag=True, default=False, help="Add files to mylist as watched. Use with -a flag.")
 @click.option("--rename", "-r",  default=None, help="Rename the files according to provided format. See documentation for more info.")
 @click.option("--link", "-h", is_flag=True,  default=False, help="Create a hardlink instead of renaming. Should be used with rename parameter.")
 @click.option("--softlink", "-l", is_flag=True, default=False, help="Create a symbolic link instead of renaming. Should be used with rename parameter.")
@@ -61,7 +61,7 @@ def ed2k(ctx , files, clipboard):
 @click.option("--show-ed2k", default=False, is_flag=True, help="Show ed2k link of processed file (while adding or renaming files).")
 @click.argument("files", nargs=-1, type=click.Path(exists=True))
 @click.pass_context
-def api(ctx, username, password, apikey, add, unwatched, rename, files, keep_structure, date_format, delete_empty, link, softlink, persistent, abort, state, show_ed2k):
+def api(ctx, username, password, apikey, add, watched, rename, files, keep_structure, date_format, delete_empty, link, softlink, persistent, abort, state, show_ed2k):
     if (not add and not rename):
         ctx.obj["output"].info("Nothing to do.")
         return
@@ -74,7 +74,7 @@ def api(ctx, username, password, apikey, add, unwatched, rename, files, keep_str
     pipeline = []
     pipeline.append(operations.HashOperation(ctx.obj["output"], show_ed2k))
     if add:
-        pipeline.append(operations.MylistAddOperation(conn, ctx.obj["output"], state, unwatched))
+        pipeline.append(operations.MylistAddOperation(conn, ctx.obj["output"], state, watched))
     if rename:
         pipeline.append(operations.GetFileInfoOperation(conn, ctx.obj["output"]))
         pipeline.append(operations.RenameOperation(ctx.obj["output"], rename, date_format, delete_empty, keep_structure, softlink, link, abort))
@@ -140,7 +140,7 @@ def check_extension(path, extensions):
 
 
 def main():
-    cli(obj={})
+    cli(obj={}, auto_envvar_prefix='ANIDBCLI')
 
 if __name__ == "__main__":
     main()

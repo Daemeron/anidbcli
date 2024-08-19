@@ -106,7 +106,7 @@ To rename all mkv and mp4 files in directory recursively using data from api you
 Where
     * **"-r"** rename using provided format string
     * **"-s"** prepend original file path to each renamed file. Without this flag the files would me moved to current directory.
-    * **"-U"** use with -a (-aU). Adds the files to mylist as unwatched.
+    * **"-W"** use with -a (-aW). Adds the files to mylist as watched.
 
 Also along with the parameter "-r" you can use one of the following parameters:
     * **"-h"** Create hardlinks instead of renaming.

@@ -1,8 +1,7 @@
-import hashlib
-import functools
 import os
 import multiprocessing
-from joblib import Parallel, delayed
+import joblib
+import Crypto.Hash.MD4
 
 CHUNK_SIZE = 9728000 # 9500KB
 MAX_CORES = 4
@@ -17,14 +16,12 @@ def get_ed2k_link(file_path, file_hash=None):
     return "ed2k://|file|%s|%d|%s|" % (name,filesize, md4)
 
 def md4_hash(data):
-        m = hashlib.new('md4')
+        m = Crypto.Hash.MD4.new()
         m.update(data)
         return m.digest()
 
 def hash_file(file_path):
     """ Returns the ed2k hash of a given file. """
-
-    
 
     def generator(f):
         while True:
@@ -37,7 +34,7 @@ def hash_file(file_path):
     with open(file_path, 'rb') as f:
         a = generator(f)
         num_cores = min(multiprocessing.cpu_count(), MAX_CORES)
-        hashes = Parallel(n_jobs=num_cores)(delayed(md4_hash)(i) for i in a)
+        hashes = joblib.Parallel(n_jobs=num_cores)(joblib.delayed(md4_hash)(i) for i in a)
         if len(hashes) == 1:
             return hashes[0].hex()
         else:

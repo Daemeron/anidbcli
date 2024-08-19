@@ -8,7 +8,7 @@ This is the complete list of options, some of them will be described further in 
     * **"--username"**, **"-u"**: Your anidb username. Prompt will be displayed if unset.
     * **"--password"**, **"-p"**: Your anidb password. Prompt will be displayed if unset.
     * **"--apikey"**, **"-k"**: To enable encryption, you need to provide your apikey.
-    * **"--add"**, **"-a"**: Add the files to mylist as watched.
+    * **"--add"**, **"-a"**: Add the files to mylist as unwatched.
     * **"--rename"**, **"-r"**: Renames the files using the provided format string.
     * **"--keep-structure"**, **"-s"**: Prepend the old file path to the provided format string.
     * **"--date-format"**, **"-d"**: Date format in python syntax. Default is "%Y-%m-%d". Should not contain any characters, that cannot be in filename.
